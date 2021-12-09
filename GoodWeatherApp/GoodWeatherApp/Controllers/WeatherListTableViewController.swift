@@ -15,18 +15,18 @@ class WeatherListTableViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        let resource = Resoruce<WeatherResponse>(url: URL(string: "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=279bd4920a028d1690eea3ac9394b20d")!,parse: {
-            data in
-            return try? JSONDecoder().decode(WeatherResponse.self, from: data)
-        })
-        
-        WebService().load(resource: resource, completion: {
-            weatherResponse in
-            
-            if let weatherResponse = weatherResponse {
-                print(weatherResponse)
-            }
-        })
+//        let resource = Resoruce<WeatherResponse>(url: URL(string: "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=279bd4920a028d1690eea3ac9394b20d")!,parse: {
+//            data in
+//            return try? JSONDecoder().decode(WeatherResponse.self, from: data)
+//        })
+//        
+//        WebService().load(resource: resource, completion: {
+//            weatherResponse in
+//
+//            if let weatherResponse = weatherResponse {
+//                print(weatherResponse)
+//            }
+//        })
         if let value = UserDefaults.standard.value(forKey: "unit") as? String {
             self.lastUnitSelection = Unit(rawValue: value)!
         }
@@ -43,7 +43,7 @@ class WeatherListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
-        
+
         cell.configure(self.weatherListViewModel.modelAt(indexPath.row))
         
         return cell
@@ -56,6 +56,10 @@ class WeatherListTableViewController: UITableViewController {
         } else if segue.identifier == "showSettingVC" {
             let settingVC = segue.destination as! SettingViewController
             settingVC.delegate = self
+        } else {
+            let settingVC = segue.destination as! WeatherDetailViewController
+            let indexPath = self.tableView.indexPathForSelectedRow!
+            settingVC.weatherVM = self.weatherListViewModel.modelAt(indexPath.row)
         }
     }
 }

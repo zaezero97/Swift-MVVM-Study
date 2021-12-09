@@ -33,14 +33,18 @@ class WeatherListViewModel {
     
     private func toCelsius() {
         self.weatherViewModelList = self.weatherViewModelList.map { weatherVM in
-            weatherVM.temperature = (weatherVM.temperature - 32) * 5/9
+            weatherVM.temperature.currentTemperature = (weatherVM.temperature.currentTemperature - 32) * 5/9
+            weatherVM.temperature.temperatureMax = (weatherVM.temperature.temperatureMax - 32) * 5/9
+            weatherVM.temperature.temperatureMin = (weatherVM.temperature.temperatureMin - 32) * 5/9
             return weatherVM
         }
     }
     
     private func toFahrenheit() {
         self.weatherViewModelList = self.weatherViewModelList.map { weatherVM in
-            weatherVM.temperature = (weatherVM.temperature * 9/5) + 32
+            weatherVM.temperature.currentTemperature = (weatherVM.temperature.currentTemperature * 9/5) + 32
+            weatherVM.temperature.temperatureMax = (weatherVM.temperature.temperatureMax * 9/5) + 32
+            weatherVM.temperature.temperatureMin = (weatherVM.temperature.temperatureMin * 9/5) + 32
             return weatherVM
         }
     }
